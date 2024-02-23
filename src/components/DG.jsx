@@ -13,7 +13,7 @@ const DG = ({ users, fields }) => {
         pageSize={5}
         checkboxSelection
         disableSelectionOnClick
-      
+        
       />
     </Box>
   );

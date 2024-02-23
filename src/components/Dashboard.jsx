@@ -3,10 +3,15 @@ import Typography from '@mui/material/Typography';
 import DG from './DG';
 import FormDialog from './FormDialog';
 import { useLocation } from 'react-router-dom';
+import {  IconButton } from '@mui/material'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Dashboard = () => {
   const location = useLocation();
   const { formJson } = location.state || {};
+
+ 
  
 const [users, setUsers] = useState([
     {
@@ -20,6 +25,8 @@ const [users, setUsers] = useState([
     }
     ]);
     const [isInitialMount, setIsInitialMount] = useState(true);
+
+
 
     useEffect(() => {
       // Check if it's not the initial mount
@@ -40,13 +47,26 @@ const [users, setUsers] = useState([
       setIsInitialMount(false);
     }, [formJson, isInitialMount]);
 
+    const handleDelete = (id) => {
+      setUsers(prevUsers => prevUsers.filter(user => user.id !== id));
+  };
+
   const fields = [
-    { field: 'firstName', headerName: 'FirstName', width: 210, editable: true },
-    { field: 'lastName', headerName: 'LastName', width: 210, editable: true },
-    { field: 'userName', headerName: 'UserName', width: 210, editable: true },
-    { field: 'email', headerName: 'Email', width: 240, editable: true },
-    { field: 'phoneNumber', headerName: 'Phone Number', width: 210, editable: true },
-    { field: 'active', headerName: 'Active', width: 210, editable: true },
+    { field: 'id', headerName: 'Id', width: 50 },
+    { field: 'firstName', headerName: 'FirstName', width: 180 },
+    { field: 'lastName', headerName: 'LastName', width: 180 },
+    { field: 'userName', headerName: 'UserName', width: 180},
+    { field: 'email', headerName: 'Email', width: 240  },
+    { field: 'phoneNumber', headerName: 'Phone Number', width: 180},
+    { field: 'active', headerName: 'Active', width: 150 },
+    { field: 'Action', headerName: 'Action', width: 150,
+    renderCell: (params) => (
+      <>
+        <IconButton><EditIcon /></IconButton>
+        <IconButton onClick={() => handleDelete(params.row.id)}><DeleteOutlineIcon /></IconButton>
+      </>
+    )
+  }
   ];
 
   return (

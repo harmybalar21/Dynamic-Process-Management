@@ -5,7 +5,6 @@ import Dashboard from './components/Dashboard.jsx';
 import Layout from './components/Layout.jsx';
 import Login from './components/Login.jsx';
 import { createRoot } from 'react-dom/client';
-import PrivateRoute from './components/PrivateRoute.jsx';
 import SignUp from './components/SignUp.jsx';
 
 
@@ -13,7 +12,7 @@ import SignUp from './components/SignUp.jsx';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout />}>
-      <Route path='/' element={<PrivateRoute><Login /></PrivateRoute>} />
+      <Route path='/' element={<Login />} />
       <Route path='/DashBoard' element={<Dashboard />}/>
       <Route path='/signup' element={<SignUp/>}/>
     </Route>

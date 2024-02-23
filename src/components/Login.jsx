@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Avatar, Grid, Paper, TextField, Button, Link, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
+import AuthService from './AuthService';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -11,12 +11,13 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const emailRegexp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  // const emailRegexp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const handleUsernameChange = (e) => {
     const enteredUsername = e.target.value;
     setUsername(enteredUsername);
-    setUsernameError(!emailRegexp.test(enteredUsername));
+    // setUsernameError(!emailRegexp.test(enteredUsername));
+    setUsernameError(enteredUsername !== undefined && enteredUsername.trim() === '');
   };
 
   const handlePasswordChange = (e) => {
@@ -25,23 +26,38 @@ const Login = () => {
     setPasswordError(enteredPassword !== undefined && enteredPassword.trim() === '');
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log('Handle Submit called');
-    setUsernameError(!emailRegexp.test(username));
+    setUsernameError(username.trim() ==='');
     setPasswordError(password.trim() === '');
-    authService.login('username', 'password');
+    
 
     if (!usernameError && !passwordError) {
       
-      if (password.trim() !== '') {
-        // localStorage.setItem('token', 'yourTokenValue');
-        navigate('/Dashboard', { state: { username, password } });
-      } else {
+      // if (password.trim() !== '') {
+       let details = {username, password}
+       try {
+        const response = await AuthService.signin(details);
+         console.log('Response Headers:', response.headers);
+        // const sessionKey = response.headers;
+        const token = response.headers.get('token');
+
+        localStorage.setItem('token', token);
+        console.log("Token:",token)
+     
+        console.log('Signup successful:', sessionKey);
+        if (response){
+          console.log(response)
+          navigate('/Dashboard');
+        } 
+      } catch (error) {
+        console.error('Signup failed:', error.message);
+      }
+    }
+       else {
         console.error('Password is required');
       }
-    } else {
-      console.error('Invalid username or password');
-    }
+    
   };
 
   const goToSignUp= () =>{navigate('/SignUp')}

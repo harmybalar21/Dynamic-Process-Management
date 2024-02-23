@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Avatar, Grid, Paper, TextField, Button, Link, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import AuthService from './AuthService';
 
 const SignUp = () => {
     const [email, setEmail] = useState('');
@@ -9,6 +10,7 @@ const SignUp = () => {
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
     const [usernameError, setUsernameError] = useState(false);
+
     const navigate = useNavigate();
 
     const emailRegexp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -32,16 +34,32 @@ const SignUp = () => {
     };
 
 
-    const handleSubmit = () => {
+    const handleSignUp = async () => {
+     
+
         console.log('Handle Submit called');
         setEmailError(!emailRegexp.test(email));
         setPasswordError(password.trim() === '');
         setUsernameError(username.trim() === '');
+        
     
         if (!emailError && !passwordError && !usernameError) {
           
           if (password.trim() !== '') {
-            navigate('/', { state: { email, password, username } });
+            let req ={username,email,password,roles:["admin"]}
+            
+            try {
+              const response = await AuthService.signup(req);
+          
+              console.log('Signup successful:', response);
+              if (response){
+                navigate('/');
+              } 
+            } catch (error) {
+              // Handle signup failure, e.g., display an error message
+              console.error('Signup failed:', error.message);
+            }
+            // navigate('/', { state: req });
           } else {
             console.error('Password is required');
           }
@@ -105,7 +123,7 @@ const SignUp = () => {
           error={passwordError}
           helperText={passwordError ? 'Password required' : ''}
         />
-        <Button type="submit" color="primary" variant='contained' style={{ margin: '14px 0' }} fullWidth  onClick={handleSubmit} >
+        <Button type="submit" color="primary" variant='contained' style={{ margin: '14px 0' }} fullWidth  onClick={handleSignUp} >
           Sign up
         </Button>
         <Typography>
