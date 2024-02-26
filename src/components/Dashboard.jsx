@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import {  IconButton } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from '@mui/icons-material/Edit';
+import EditDialog from './EditDialog';
 
 const Dashboard = () => {
   const location = useLocation();
@@ -25,6 +26,8 @@ const [users, setUsers] = useState([
     }
     ]);
     const [isInitialMount, setIsInitialMount] = useState(true);
+
+    const [editableUser, setEditableUser] = useState(null);
 
 
 
@@ -47,12 +50,33 @@ const [users, setUsers] = useState([
       setIsInitialMount(false);
     }, [formJson, isInitialMount]);
 
-    const handleDelete = (id) => {
+  const handleDelete = (id) => {
       setUsers(prevUsers => prevUsers.filter(user => user.id !== id));
+  };
+  const handleEdit = (user) => {
+    setEditableUser(user);
+  };
+
+  const handleCloseEditDialog = () => {
+    setEditableUser(null);
+  };
+  const handleSaveEdit = (editedUser) => {
+    // Find the index of the user to be edited
+    const userIndex = users.findIndex((user) => user.id === editedUser.id);
+
+    if (userIndex !== -1) {
+      // Update the user in the users state
+      const updatedUsers = [...users];
+      updatedUsers[userIndex] = editedUser;
+      setUsers(updatedUsers);
+    }
+
+    // Reset editableUser state
+    setEditableUser(null);
   };
 
   const fields = [
-    { field: 'id', headerName: 'Id', width: 50 },
+    { field: 'id', headerName: 'ID', width: 50 },
     { field: 'firstName', headerName: 'FirstName', width: 180 },
     { field: 'lastName', headerName: 'LastName', width: 180 },
     { field: 'userName', headerName: 'UserName', width: 180},
@@ -62,12 +86,14 @@ const [users, setUsers] = useState([
     { field: 'Action', headerName: 'Action', width: 150,
     renderCell: (params) => (
       <>
-        <IconButton><EditIcon /></IconButton>
+        <IconButton><EditIcon onClick={() => handleEdit(params.row)}/></IconButton>
         <IconButton onClick={() => handleDelete(params.row.id)}><DeleteOutlineIcon /></IconButton>
       </>
     )
   }
   ];
+
+ 
 
   return (
     <div>
@@ -78,6 +104,12 @@ const [users, setUsers] = useState([
 
       
       <DG users={users} fields={fields} />
+      <EditDialog
+          open={Boolean(editableUser)}
+          user={editableUser}
+          onClose={handleCloseEditDialog}
+          onSave={handleSaveEdit}
+        />
     </div>
   );
 };

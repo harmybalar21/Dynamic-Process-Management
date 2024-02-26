@@ -165,23 +165,23 @@ function FormDialog() {
         <DialogTitle>ADD USER</DialogTitle>
         <DialogContent>
           
-          <TextField   margin="dense" id="firstName" name="firstName" label="Firstname" type="text"  variant="standard" style={{marginRight: "20px", width:'260px'}} onChange={handleFirstNameChange} onClick={handleFirstNameChange}
+          <TextField required  margin="dense" id="firstName" name="firstName" label="Firstname" type="text"  variant="standard" style={{marginRight: "20px", width:'260px'}} onChange={handleFirstNameChange} onClick={handleFirstNameChange}
           error={firstnameError} helperText={firstnameError ? 'Firstname required' : ''}
           />
            <TextField    margin="dense" id="lastName" name="lastName" label="Lastname" type="text"  variant="standard" style={{marginRight: "20px", width:'250px'}} onChange={handleLastNameChange}
            onClick={handleLastNameChange} error={lastnameError} helperText={lastnameError ? 'Lastname required' : ''}
           />
-           <TextField   margin="dense" id="userName" name="userName" label="Username" type="text"  variant="standard" style={{marginRight: "20px", width:'260px'}}  onChange={handleUserNameChange} 
+           <TextField required  margin="dense" id="userName" name="userName" label="Username" type="text"  variant="standard" style={{marginRight: "20px", width:'260px'}}  onChange={handleUserNameChange} 
            onClick={handleUserNameChange} error={usernameError} helperText={usernameError ? 'Username required' : ''}
           />
-           <TextField   margin="dense" id="phoneNumber" name="phoneNumber" label="Phone number" type="text"  variant="standard" style={{marginRight: "20px", width:'250px'}} onChange={handlePhoneNumberChange} error={phoneNumberError} helperText={phoneNumberError ? 'Phone number must be 10 digits' : ''} onClick={handlePhoneNumberChange}
+           <TextField  required margin="dense" id="phoneNumber" name="phoneNumber" label="Phone number" type="text"  variant="standard" style={{marginRight: "20px", width:'250px'}} onChange={handlePhoneNumberChange} error={phoneNumberError} helperText={phoneNumberError ? 'Phone number must be 10 digits' : ''} onClick={handlePhoneNumberChange}
           /> 
-          <TextField   margin="dense" id="email" name="email" label="Email Address" type="email"  variant="standard" fullWidth onChange={handleEmailChange} onClick={handleEmailChange} error={emailError} helperText={emailError ? 'Email required': ''}
+          <TextField required  margin="dense" id="email" name="email" label="Email Address" type="email"  variant="standard" fullWidth onChange={handleEmailChange} onClick={handleEmailChange} error={emailError} helperText={emailError ? 'Email required': ''}
           />
-            <TextField   margin="dense" id="password" name="password" label="Password" type="password"  variant="standard"  autoComplete="new-password" style={{marginRight: "20px", width:'260px'}} onChange={handlePasswordChange} onClick={handlePasswordChange}
+            <TextField required  margin="dense" id="password" name="password" label="Password" type="password"  variant="standard"  autoComplete="new-password" style={{marginRight: "20px", width:'260px'}} onChange={handlePasswordChange} onClick={handlePasswordChange}
             error={passwordError} helperText={passwordError? 'Password must contain at least one special character, one number, and one uppercase letter.': ''}
           />
-           <TextField   margin="dense" id="confirmPassword" name="confirmPassword" label="Confirm Password" type="password"  variant="standard" style={{ marginRight: "20px", width:'250px'}} onChange={handleConfirmPasswordChange}onClick={handleConfirmPasswordChange} error={confirmPasswordError} helperText={confirmPasswordError ? 'Passwords do not match.' : ''} 
+           <TextField required  margin="dense" id="confirmPassword" name="confirmPassword" label="Confirm Password" type="password"  variant="standard" style={{ marginRight: "20px", width:'250px'}} onChange={handleConfirmPasswordChange}onClick={handleConfirmPasswordChange} error={confirmPasswordError} helperText={confirmPasswordError ? 'Passwords do not match.' : ''} 
           
           />
           

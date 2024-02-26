@@ -11,7 +11,6 @@ const DG = ({ users, fields }) => {
         rows={users}
         columns={fields}
         pageSize={5}
-        checkboxSelection
         disableSelectionOnClick
         
       />

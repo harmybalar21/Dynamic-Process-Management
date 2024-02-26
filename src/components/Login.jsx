@@ -38,25 +38,20 @@ const Login = () => {
        let details = {username, password}
        try {
         const response = await AuthService.signin(details);
-         console.log('Response Headers:', response.headers);
+         console.log('Response Headers:', response);
         // const sessionKey = response.headers;
-        const token = response.headers.get('token');
+        const token = response.token;
 
         localStorage.setItem('token', token);
-        console.log("Token:",token)
-     
-        console.log('Signup successful:', sessionKey);
-        if (response){
-          console.log(response)
+        if (token) {
+          localStorage.setItem('token', token);
+          console.log("Token:", token);
           navigate('/Dashboard');
-        } 
-      } catch (error) {
+      }} catch (error) {
         console.error('Signup failed:', error.message);
       }
     }
-       else {
-        console.error('Password is required');
-      }
+       
     
   };
 
