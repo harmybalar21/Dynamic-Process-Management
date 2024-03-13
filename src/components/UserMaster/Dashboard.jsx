@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import Typography from '@mui/material/Typography';
-import DG from './DG';
-import FormDialog from './FormDialog';
+import DG from '../UserMaster/DG';
+import FormDialog from '../DialogPopup/FormDialog';
 import { useLocation } from 'react-router-dom';
 import {  IconButton } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from '@mui/icons-material/Edit';
-import EditDialog from './EditDialog';
+import EditDialog from '../DialogPopup/EditDialog';
+import HeaderBar from '../Header/Header'
+
 
 const Dashboard = () => {
-  const location = useLocation();
+   const location = useLocation();
   const { formJson } = location.state || {};
 
  
@@ -17,11 +19,11 @@ const Dashboard = () => {
 const [users, setUsers] = useState([
     {
       id: 1,
-      firstName: 'HARMY',
-      lastName: 'BALAR',
-      userName: 'Harmy',
-      email: 'GSXVSV@gmail.com',
-      phoneNumber: '9859664115',
+      firstName: 'Harmy',
+      lastName: 'Balar',
+      userName: 'harmy1234',
+      email: 'harmy@gmail.com',
+      phoneNumber: '9023238057',
       active: false,
     }
     ]);
@@ -86,7 +88,7 @@ const [users, setUsers] = useState([
     { field: 'Action', headerName: 'Action', width: 150,
     renderCell: (params) => (
       <>
-        <IconButton><EditIcon onClick={() => handleEdit(params.row)}/></IconButton>
+        <IconButton  onClick={() => handleEdit(params.row)}><EditIcon/></IconButton>
         <IconButton onClick={() => handleDelete(params.row.id)}><DeleteOutlineIcon /></IconButton>
       </>
     )
@@ -96,9 +98,13 @@ const [users, setUsers] = useState([
  
 
   return (
+    <>
     <div>
+    <HeaderBar />
+    <div>
+      
     <div style={{ height: '50px', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <Typography style={{ fontSize: '25px', fontWeight: '600' }}>USER MANAGEMENT </Typography>
+      <Typography style={{ fontSize: '20px', fontWeight: '500' }}>USER MANAGEMENT </Typography>
       <FormDialog >Add User</FormDialog>
     </div>
 
@@ -111,6 +117,8 @@ const [users, setUsers] = useState([
           onSave={handleSaveEdit}
         />
     </div>
+    </div>
+    </>
   );
 };
 

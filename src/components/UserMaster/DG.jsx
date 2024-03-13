@@ -6,7 +6,7 @@ import { DataGrid } from '@mui/x-data-grid';
 
 const DG = ({ users, fields }) => {
   return (
-    <Box sx={{ height:'530px', width: '100%' }}>
+    <Box sx={{ height:'530px', width: '100%' , borderColor:'red'}}>
       <DataGrid
         rows={users}
         columns={fields}

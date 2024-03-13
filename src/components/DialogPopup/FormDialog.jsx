@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';;
+import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { useNavigate } from 'react-router-dom';
@@ -149,7 +149,7 @@ function FormDialog() {
 
   return (
     <React.Fragment>
-      <Button variant="contained" onClick={handleClickOpen} style={{ margin: '25px' }} startIcon={<PersonAddIcon/>}>
+      <Button variant="contained" onClick={handleClickOpen} style={{backgroundColor: "rgb(122 161 187)"}} startIcon={<PersonAddIcon/>}>
         Add User
       </Button>
       
@@ -162,7 +162,7 @@ function FormDialog() {
           
         }}
       >
-        <DialogTitle>ADD USER</DialogTitle>
+        <DialogTitle  style={{ fontWeight: 700, fontSize:"22px" }} >ADD USER</DialogTitle>
         <DialogContent>
           
           <TextField required  margin="dense" id="firstName" name="firstName" label="Firstname" type="text"  variant="standard" style={{marginRight: "20px", width:'260px'}} onChange={handleFirstNameChange} onClick={handleFirstNameChange}
@@ -188,8 +188,8 @@ function FormDialog() {
           
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Submit</Button>
+          <Button style={{ fontWeight: 700 }} onClick={handleClose}>Cancel</Button>
+          <Button style={{ fontWeight: 700 }} type="submit">Submit</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
