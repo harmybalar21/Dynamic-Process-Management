@@ -9,13 +9,14 @@ import HeaderBar from '../Header/Header';
 import FDialog from './FormDialog';
 import EditDialog from '../FormMaster/EditDialog';
 import { useLocation } from 'react-router-dom';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 
 const FormMaster = () => {
   const location = useLocation();
   const { formJson } = location.state || {};
  
-  const [users, setUsers] = React.useState([
+  const [users, setUsers] = useState([
     { id: 1, name: 'Form 1', description: 'hasdbxchsd' },
   ]);
 
@@ -62,6 +63,9 @@ const FormMaster = () => {
           </IconButton>
           <IconButton onClick={() => handleDelete(params.row.id)}>
             <DeleteOutlineIcon />
+          </IconButton>
+          <IconButton>
+            <VisibilityIcon/>
           </IconButton>
         </>
       ),

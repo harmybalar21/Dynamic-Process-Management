@@ -55,6 +55,7 @@ function FDialog() {
       </Button>
  
       <Dialog
+        maxWidth="lg" fullWidth
         open={open}
         onClose={handleClose}
         PaperProps={{
@@ -78,9 +79,10 @@ function FDialog() {
       >
         <DialogTitle style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 900, fontSize:'22px'}}>Add Form <CancelIcon  onClick={handleClose} ></CancelIcon></DialogTitle>
         <DialogContent>
-          <TextField autoFocus margin="dense" id="name" name="name" label="Name" type="text" style={{ width: '500px' ,marginBottom: '10px' }} variant="outlined" onChange={nameChange} error={nameError} helperText={nameError ? 'First Name required' : ''}
-          />
-          <TextareaAutosize autoFocus margin="dense" id="description" name="description" placeholder="Description" style={{ width: '500px'}} onChange={descriptionChange} error={descriptionError ? 'true' : undefined} minRows={3}
+          <TextField autoFocus margin="dense" id="name" name="name" label="Name" type="text"  variant="outlined" onChange={nameChange} error={nameError} helperText={nameError ? 'First Name required' : ''} 
+          style={{width:'1145px',border:'1px solid black'}}/>
+          <br />
+          <TextareaAutosize autoFocus margin="dense" id="description" name="description" placeholder="Description" style={{width:'1140px',border:'1px solid black'}} onChange={descriptionChange} error={descriptionError ? 'true' : undefined} minRows={3}
           />  
           {descriptionError && (
           <div style={{ color: 'red', fontSize: '17px' }}>
@@ -90,8 +92,8 @@ function FDialog() {
  
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} style={{ textTransform: 'capitalize',fontSize:'16px', fontWeight: 700 }}>Cancel</Button>
-          <Button type="submit" style={{ textTransform: 'capitalize',fontSize:'16px',  fontWeight: 700 }}>Save</Button>
+          <Button onClick={handleClose}variant="contained" style={{ textTransform: 'capitalize',fontSize:'16px', fontWeight: 700,backgroundColor: "rgb(122 161 187)"  }}>Cancel</Button>
+          <Button type="submit"   variant="contained" style={{ textTransform: 'capitalize',fontSize:'16px',  fontWeight: 700,backgroundColor: "rgb(122 161 187)" }}>Save</Button>
           </DialogActions>
           {showAccordion && (
           <>
@@ -100,10 +102,7 @@ function FDialog() {
            </>
        
           )}
-        
-
-        
-      </Dialog>
+        </Dialog>
     </React.Fragment>
   );
 }

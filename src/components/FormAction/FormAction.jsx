@@ -5,6 +5,7 @@ import { DataGrid} from '@mui/x-data-grid';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from '@mui/icons-material/Edit';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
+import { Label } from '@mui/icons-material';
 
 
 
@@ -18,16 +19,36 @@ const FormAction = () => {
     const [defaultValue, setDefaultValue] = useState('');
     const [selectedRow, setSelectedRow] = useState(null); 
     const [data, setData] = useState([
+      
         {
-          id: 1,
-          color: 'yellow',
-          controlType: 'button',
-          text: 'save',
-          displayOrder: '1',
-          success:'success',
-          failure:'no'
+            "id": 1,
+            "color": "yellow",
+            "controlType": "button",
+            "text": "save",
+            "displayOrder": "1",
+            "success": "success",
+            "failure": "no"
         },
-      ]);
+        {
+            "id": 0.4100180468503791,
+            "controlType": "button",
+            "displayOrder": "2",
+            "text": "cancel",
+            "success": "",
+            "failure": "",
+            "color": "",
+            "defaultValue": ""
+        },
+        {
+            "id": 0.7595405644721089,
+            "controlType": "submit",
+            "displayOrder": "3",
+            "text": "save",
+            "success": "",
+            "failure": "",
+            "color": "",
+            "defaultValue": ""
+        }]);
       const controlTypeChange = (event) => {
         setControlType(event.target.value);
       };
@@ -59,11 +80,11 @@ const FormAction = () => {
 
 
       const columns = [
-        { field: 'displayOrder', headerName: 'Display Order', width: 150 },
-        { field: 'text', headerName: 'Text', width: 150 },
-        { field: 'controlType', headerName: 'Control Type', width: 150 },
+        { field: 'displayOrder', headerName: 'Display Order', width: 250 },
+        { field: 'text', headerName: 'Text', width: 350 },
+        { field: 'controlType', headerName: 'Control Type', width: 350 },
         {
-          field: 'Action', headerName: 'Action', width: 150,
+          field: 'Action', headerName: 'Action', width: 250,
           renderCell: (params) => (
               <>
                   <IconButton onClick={() => handleEdit(params.row)}>
@@ -142,35 +163,37 @@ const FormAction = () => {
     return(
         <div style={{  width: '100%' }}>
       <Accordion>
-        <AccordionSummary style={{border: '1px solid black',fontWeight: 1000, margin:"5px"}} expandIcon={<ExpandMoreIcon />}>
+        <AccordionSummary style={{fontWeight: 700, margin:"5px"}} expandIcon={<ExpandMoreIcon />}>
           Form Actions
         </AccordionSummary>
         <AccordionDetails>
           <div>
-            <TextField id="displayOrder" required label="Display Order" variant="outlined" value={displayOrder} onChange={displayOrderChange} disabled={selectedRow !== null} style={{marginBottom:"5px", marginRight:"5px"}} />
-
-            {/* <TextField id="displayOrder" required label="Display Order" variant="outlined" value={displayOrder} onChange={displayOrderChange}  style={{marginBottom:"5px", marginRight:"5px"}} /> */}
-
-            <TextField id="text" required label="Text" variant="outlined" onChange={TextChange} value={text} />
+           
+            <TextField id="displayOrder2" required label="Display Order" variant="outlined" value={displayOrder} onChange={displayOrderChange} disabled={selectedRow !== null} style={{marginRight:"25px"}} InputLabelProps={{ style: { fontSize: "15px" } }}>Display Order</TextField>
+        
+  
+            <TextField id="text" required label="Text" variant="outlined" onChange={TextChange} value={text} style={{marginBottom:"25px", marginRight:"25px"}}InputLabelProps={{ style: { fontSize: "15px" } }} >Text</TextField>
             
-            <FormControl fullWidth required>
-              <InputLabel id="controlType">Control Type</InputLabel>
+            <TextField id="color" label="Color" variant="outlined" onChange={colorChange} value={color} style={{marginBottom:"25px", marginRight:"25px"}} InputLabelProps={{ style: { fontSize: "15px" } }}>Color</TextField>
+
+            <FormControl id="controlType2"  required>
+              <InputLabel id="controlType"style={{ fontSize: "15px"}}>Control Type</InputLabel>
               <Select
                 labelId="controlType"
                 id="control-select"
                 value={controlType}
-                onChange={controlTypeChange} style={{marginBottom:"5px"}}
+                onChange={controlTypeChange} style={{marginBottom:"5px",height:"45px"}}
               >
                 <MenuItem value="submit">submit</MenuItem>
                 <MenuItem value="button">button</MenuItem></Select>
             </FormControl>
             
-            <TextField id="color" label="Color" variant="outlined" onChange={colorChange} value={color} style={{marginBottom:"5px" , marginRight:"5px"}}/>
+            <br />
 
-            <TextareaAutosize autoFocus value={success}  margin="dense" id="success" name="success" placeholder="Success Message" style={{ width: '500px'}} onChange={successChange}  minRows={3}/> 
+            <TextareaAutosize autoFocus value={success}  margin="dense" id="success" name="success" placeholder="Success Message" style={{ width: '300px', marginRight:'25px'}} onChange={successChange}  minRows={4}/> 
 
-           <TextareaAutosize autoFocus value={failure} onChange={failureChange} margin="dense" id="failure" name="failure" placeholder="Failure Message" style={{ width: '500px'}}minRows={3} /> 
-            
+           <TextareaAutosize autoFocus value={failure} onChange={failureChange} margin="dense" id="failure" name="failure" placeholder="Failure Message" style={{ width: '300px'}}minRows={4} /> 
+            <br />
        
           
             <Button variant="contained" onClick={Save} style={{marginRight: "10px",backgroundColor: "rgb(122 161 187) "}} >Save</Button>

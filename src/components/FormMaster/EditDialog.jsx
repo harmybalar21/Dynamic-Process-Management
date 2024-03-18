@@ -3,6 +3,7 @@ import { TextField, Dialog, DialogTitle, DialogContent, Button, DialogActions } 
 import { useNavigate } from 'react-router-dom';
 import FormAction from '../FormAction/FormAction';
 import FormField from '../FormField/FormField';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const EditDialog = ({ open, user, onSave, onClose }) => {
   const [editedUser, setEditedUser] = useState({ ...user });
@@ -36,15 +37,17 @@ const EditDialog = ({ open, user, onSave, onClose }) => {
 
   return (
     <>
-    <Dialog open={open} >
-      <DialogTitle style={{fontWeight: 900}}>Edit User Details</DialogTitle>
+    <Dialog open={open} maxWidth="lg" fullWidth >
+      <DialogTitle style={{fontWeight: 900}}>Edit User Details <CancelIcon style={{}} onClick={handleClose} /></DialogTitle>
+      
       <DialogContent>
+      
         <TextField
           label="name"
           name="name"
           value={editedUser.name || ''}
           onChange={handleInputChange}
-          style={{ marginRight: '5px', width: '260px' }}
+          fullWidth
           margin="dense"
         />
         <TextField
@@ -52,15 +55,16 @@ const EditDialog = ({ open, user, onSave, onClose }) => {
           name="description"
           value={editedUser.description || ''}
           onChange={handleInputChange}
-          style={{ marginRight: '5px', width: '260px' }}
+          style={{ marginTop: '5px' }}
+          fullWidth
           margin="dense"
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button variant="contained" onClick={onClose} style={{ fontWeight: 700,backgroundColor: "rgb(122 161 187)"  }}>
           Cancel
         </Button>
-        <Button onClick={handleSave} color="primary">
+        <Button  variant="contained" onClick={handleSave} style={{ fontWeight: 700,backgroundColor: "rgb(122 161 187)"  }}>
           Save
         </Button>
         </DialogActions>

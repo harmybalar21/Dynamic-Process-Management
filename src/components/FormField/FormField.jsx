@@ -15,13 +15,40 @@ export default function FormField() {
   const [defaultValue, setDefaultValue] = useState('');
   const [selectedRow, setSelectedRow] = useState(null); 
   const [data, setData] = useState([
-    {
-      id: 1,
-      controlType: 'checkbox',
-      fieldName: 'Form',
-      displayOrder: '1',
+  
+        {
+            "id": 1,
+            "controlType": "textfield",
+            "fieldName": "name",
+            "displayOrder": "1",
+            "maxLength": "8",
+            "disabled": "no",
+            "required": "yes",
+            "defaultValue": ""
+        },
+        {
+            "id": 0.6935281981609382,
+            "controlType": "textfield",
+            "displayOrder": "2",
+            "required": "yes",
+            "disabled": "no",
+            "fieldName": "username",
+            "maxLength": "",
+            "defaultValue": ""
+        },
+        {
+            "id": 0.04840120202241982,
+            "controlType": "textfield",
+            "displayOrder": "3",
+            "required": "yes",
+            "disabled": "no",
+            "fieldName": "email",
+            "maxLength": "",
+            "defaultValue": ""
+        }
+    ]
       
-    }]);
+    );
     
 
   const controlTypeChange = (event) => {
@@ -62,8 +89,6 @@ export default function FormField() {
 
 
   const Save = () => {
-    
-  
     if (selectedRow) {
       const updatedRows = data.map(row => {
         if (row.id === selectedRow.id) {
@@ -100,6 +125,7 @@ export default function FormField() {
         defaultValue
       };
       setData([...data, newRow]);
+      console.log(data)
     }
    HandleClear();
   };
@@ -124,16 +150,16 @@ export default function FormField() {
     setFieldName(row.fieldName);
     setMaxLength(row.maxLength);
     setDefaultValue(row.defaultValue);
-    
+     
   };
  
 
   const columns = [
-    { field: 'displayOrder', headerName: 'Display Order', width: 150 },
-    { field: 'fieldName', headerName: 'Field Name', width: 150 },
-    { field: 'controlType', headerName: 'Control Type', width: 150 },
+    { field: 'displayOrder', headerName: 'Display Order', width: 250, },
+    { field: 'fieldName', headerName: 'Field Name', width: 350 },
+    { field: 'controlType', headerName: 'Control Type', width: 350 },
     {
-      field: 'Action', headerName: 'Action', width: 150,
+      field: 'Action', headerName: 'Action', width: 200,
       renderCell: (params) => (
           <>
               <IconButton onClick={() => handleEdit(params.row)}>
@@ -150,22 +176,20 @@ export default function FormField() {
   return (
     <div style={{  width: '100%' }}>
       <Accordion>
-        <AccordionSummary style={{border: '1px solid black',fontWeight: 1000, margin:"5px"}} expandIcon={<ExpandMoreIcon />}>
+        <AccordionSummary style={{fontWeight: 700, margin:"5px"}} expandIcon={<ExpandMoreIcon />}>
           Form Fields
         </AccordionSummary>
         <AccordionDetails>
           <div>
-            <TextField id="displayOrder" type='number' required label="Display Order" variant="outlined" value={displayOrder} onChange={displayOrderChange} disabled={selectedRow !== null} style={{marginBottom:"5px", marginRight:"5px"}} />
-            <TextField id="fieldName" required label="Field Name" variant="outlined" onChange={fieldNameChange} value={fieldName} />
-            <TextField id="maxLength" label="Max Length" variant="outlined" onChange={maxLengthChange} value={maxLength} style={{marginBottom:"5px" , marginRight:"5px"}}/>
-            <TextField id="defaultValue" label="Default Value" variant="outlined" onChange={defaultValueChange} value={defaultValue} />
-            <FormControl fullWidth required>
-              <InputLabel id="controlType">Control Type</InputLabel>
+            <TextField id="displayOrder" type='number' required label="Display Order" variant="outlined" value={displayOrder} onChange={displayOrderChange} disabled={selectedRow !== null} style={{ marginRight:"25px",fontSize:"10px"}} InputLabelProps={{ style: { fontSize: "15px" } }}>Display Order</TextField>
+
+            <FormControl id="controlType" required>
+              <InputLabel id="controlType" style={{fontSize:"15px"}}>Control Type</InputLabel>
               <Select
                 labelId="controlType"
                 id="control-select"
                 value={controlType}
-                onChange={controlTypeChange} style={{marginBottom:"5px"}}
+                onChange={controlTypeChange} style={{height:"40px", width:"250px",marginRight:"25px"}}
               >
                 <MenuItem value="picklist">picklist</MenuItem>
                 <MenuItem value="multiple picklist">multiple picklist</MenuItem>
@@ -177,33 +201,45 @@ export default function FormField() {
                 <MenuItem value="textarea">textarea</MenuItem>
               </Select>
             </FormControl>
-            <FormControl fullWidth>
-              <InputLabel id="isRequired">Is Required?</InputLabel>
+
+            <TextField id="fieldName" required label="Field Name" variant="outlined" onChange={fieldNameChange} value={fieldName}  style={{ marginRight:"25px",fontSize:"10px"}} InputLabelProps={{ style: { fontSize: "15px" } }} >Field Name</TextField>
+
+            <TextField id="maxLength" label="Max Length" variant="outlined" onChange={maxLengthChange} value={maxLength} style={{marginBottom:"5px" , marginRight:"25px",fontSize:"10px"}} InputLabelProps={{ style: { fontSize: "15px" } }}>Max length</TextField>
+
+            <TextField id="defaultValue" label="Default Value" variant="outlined" onChange={defaultValueChange} value={defaultValue} style={{ marginBottom:"25px"}} InputLabelProps={{ style: { fontSize: "15px" } }}/>
+        
+           
+           
+            <FormControl >
+              <InputLabel id="isRequired" style={{fontSize:"15px"}}>Is Required?</InputLabel>
               <Select
                 labelId="isRequired"
                 id="isRequired-select"
                 value={required}
                 onChange={isRequiredChange}
-                style={{marginBottom:"5px"}}
+                style={{marginBottom:"5px", height:"40px",marginRight:"35px",width:"250px"}}
                 
               >
                 <MenuItem value="yes">yes</MenuItem>
                 <MenuItem value="no">no</MenuItem>
               </Select>
             </FormControl>
-            <FormControl fullWidth>
-              <InputLabel id="isDisabled">Is Disabled?</InputLabel>
+           
+            <FormControl >
+              <InputLabel id="isDisabled" style={{fontSize:"15px"}}>Is Disabled?</InputLabel>
               <Select
                 labelId="isDisabled"
                 id="isDisabled-select"
                 value={disabled}
                 onChange={isDisabledChange}
-                style={{marginBottom:"5px"}}
+                style={{marginBottom:"5px",height:"40px",marginRight:"35px",width:"250px"}}
               >
                 <MenuItem value="yes">yes</MenuItem>
                 <MenuItem value="no">no</MenuItem>
               </Select>
             </FormControl>
+           
+           <br />
            
             <Button variant="contained" style={{marginRight: "10px",backgroundColor: "rgb(122 161 187)"}} onClick={Save}>Save</Button>
             <Button variant="contained" style={{backgroundColor: "rgb(122 161 187)"}} onClick={HandleClear}>Add</Button>

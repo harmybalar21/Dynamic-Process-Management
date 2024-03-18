@@ -5,6 +5,7 @@ import Dashboard from './components/UserMaster/Dashboard.jsx';
 import Layout from './components/Layout.jsx';
 import Login from './components/Login.jsx';
 import { createRoot } from 'react-dom/client';
+import './index.css';
 import SignUp from './components/SignUp.jsx';
 import { BrowserRouter as  Routes, Route } from 'react-router-dom';
 import Protected from './components/Protected.jsx';
