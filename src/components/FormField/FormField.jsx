@@ -76,9 +76,9 @@ export default function FormField({ formfields, onFieldChange, onSave }) {
         return row;
       });
       setData(updatedRows);
-      onFieldChange(updatedRows);
+      // onFieldChange(updatedRows);
+      onSave(data);
       setSelectedRow(null);
-      // onSave(data);
       console.log(updatedRows);
       
     } else {

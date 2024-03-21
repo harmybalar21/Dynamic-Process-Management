@@ -26,22 +26,24 @@ const EditDialog = ({ open, user, onSave, onClose, mode, isAccordionsVisible }) 
   };
 
   const handleSave = () => {
-    if (!editedUser.name.trim() || (!editedUser.description.trim())) {
-      setNameError('Name is required');
-      setDescriptionError('Description is required');
-      return;
-    }
-    const updatedUser ={...editedUser, 
+    if (!editedUser || !editedUser.name || !editedUser.description ||
+      !editedUser.name.trim() || !editedUser.description.trim()) {
+    setNameError('Name is required');
+    setDescriptionError('Description is required');
+    return;
+  }
+  
+    const updatedUser = {
+      ...editedUser,
       formfields: field,
       formactions: action
-    }
+    };
+  
     onSave(updatedUser);
-    // onClose();
+  
     if (mode === 'add') {
       setAccordionsVisible(true);
     }
-    
-    
   };
 
   const handleClose = () => {

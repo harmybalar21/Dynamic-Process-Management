@@ -26,12 +26,12 @@ const FormMaster = () => {
     setIsOpen(true);
   };
 
-  const [newFormDetails, setNewFormDetails] = useState({
-  name: '',
-  description: '',
-  formfields: [],
-  formactions: [],
-});
+//   const [newFormDetails, setNewFormDetails] = useState({
+//   name: '',
+//   description: '',
+//   formfields: [],
+//   formactions: [],
+// });
   const [users, setUsers] = useState([
     {
       id: 1,
@@ -114,7 +114,7 @@ const FormMaster = () => {
       }
     ]);
     // setIsOpen(false);
-    setIsFormSaved(true);
+    // setIsFormSaved(true);
     setIsAccordionsVisible(true);
     console.log("isAccordionsVisible:", isAccordionsVisible);
   };
@@ -201,21 +201,6 @@ const FormMaster = () => {
     setEditableUser(null);
   };
 
-  // const handleSaveFormField = (formFieldsData) => {
-  //   // Update the form JSON with the new form field data
-  //   // You can choose to update an existing form or add a new one
-  //   // For demonstration, let's assume you are updating an existing form
-  //   const updatedUsers = users.map(user => {
-  //     if (user.id === editableUser.id) {
-  //       return {
-  //         ...user,
-  //         formfields: formFieldsData
-  //       };
-  //     }
-  //     return user;
-  //   });
-  //   setUsers(updatedUsers);
-  // };
 
   return (
     <>
@@ -229,10 +214,11 @@ const FormMaster = () => {
           {isOpen && (
         <EditDialog
           open={isOpen}
+          user={editableUser}
           onClose={() => setIsOpen(false)}
           mode="add"
           onSave={handleSaveUser}
-          user={newFormDetails} // Pass the new form details state
+          // user={newFormDetails} // Pass the new form details state
         
         />
       )}
