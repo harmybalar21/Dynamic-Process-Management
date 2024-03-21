@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { Accordion, AccordionSummary, AccordionDetails, TextField, FormControl, InputLabel, MenuItem, Select, IconButton, Button } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Accordion, AccordionSummary, AccordionDetails, TextField, FormControl, InputLabel, MenuItem, Select, IconButton, Button, DialogActions } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { DataGrid} from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from '@mui/icons-material/Edit';
+import { useLocation } from 'react-router-dom';
 
-export default function FormField() {
+export default function FormField({ formfields, onFieldChange, onSave }) {
   const [controlType, setControlType] = useState('');
   const [displayOrder, setDisplayOrder] = useState('');
   const [required, setRequired] = useState('');
@@ -14,42 +15,12 @@ export default function FormField() {
   const [maxLength, setMaxLength] = useState('');
   const [defaultValue, setDefaultValue] = useState('');
   const [selectedRow, setSelectedRow] = useState(null); 
-  const [data, setData] = useState([
+  const [data, setData] = useState(formfields || []);
+
+  useEffect(() => {
+    setData(formfields || []);
+  }, [formfields]);
   
-        {
-            "id": 1,
-            "controlType": "textfield",
-            "fieldName": "name",
-            "displayOrder": "1",
-            "maxLength": "8",
-            "disabled": "no",
-            "required": "yes",
-            "defaultValue": ""
-        },
-        {
-            "id": 0.6935281981609382,
-            "controlType": "textfield",
-            "displayOrder": "2",
-            "required": "yes",
-            "disabled": "no",
-            "fieldName": "username",
-            "maxLength": "",
-            "defaultValue": ""
-        },
-        {
-            "id": 0.04840120202241982,
-            "controlType": "textfield",
-            "displayOrder": "3",
-            "required": "yes",
-            "disabled": "no",
-            "fieldName": "email",
-            "maxLength": "",
-            "defaultValue": ""
-        }
-    ]
-      
-    );
-    
 
   const controlTypeChange = (event) => {
     setControlType(event.target.value);
@@ -59,7 +30,6 @@ export default function FormField() {
     if (selectedRow === null) {
       setDisplayOrder(event.target.value);
     }
-    
   };
 
   const isRequiredChange = (event) => {
@@ -85,8 +55,8 @@ export default function FormField() {
   const handleDelete = (id) => {
     const updatedRows = data.filter(row => row.id !== id);
     setData(updatedRows);
+    onFieldChange(updatedRows);
   };
-
 
   const Save = () => {
     if (selectedRow) {
@@ -106,15 +76,20 @@ export default function FormField() {
         return row;
       });
       setData(updatedRows);
+      onFieldChange(updatedRows);
       setSelectedRow(null);
+      // onSave(data);
+      console.log(updatedRows);
+      
     } else {
       const isDisplayOrderExists = data.some(row => row.displayOrder === displayOrder);
 
       if (isDisplayOrderExists) {
-      alert('Please enter unique display order. The number you added is already in use.');
-      return;
-    }
-      const newRow = {
+        alert('Please enter unique display order. The number you added is already in use.');
+        return;
+      }
+    
+    const newRow = {
         id: Math.random(),
         controlType,
         displayOrder,
@@ -125,9 +100,10 @@ export default function FormField() {
         defaultValue
       };
       setData([...data, newRow]);
-      console.log(data)
+      onFieldChange([...data, newRow]);
+      
     }
-   HandleClear();
+    HandleClear();
   };
 
   const HandleClear = () => {
@@ -150,9 +126,7 @@ export default function FormField() {
     setFieldName(row.fieldName);
     setMaxLength(row.maxLength);
     setDefaultValue(row.defaultValue);
-     
   };
- 
 
   const columns = [
     { field: 'displayOrder', headerName: 'Display Order', width: 250, },
@@ -173,6 +147,8 @@ export default function FormField() {
     }
   ];
 
+  
+
   return (
     <div style={{  width: '100%' }}>
       <Accordion>
@@ -181,7 +157,7 @@ export default function FormField() {
         </AccordionSummary>
         <AccordionDetails>
           <div>
-            <TextField id="displayOrder" type='number' required label="Display Order" variant="outlined" value={displayOrder} onChange={displayOrderChange} disabled={selectedRow !== null} style={{ marginRight:"25px",fontSize:"10px"}} InputLabelProps={{ style: { fontSize: "15px" } }}>Display Order</TextField>
+            <TextField id="displayOrder" type='number' required label="Display Order" variant="outlined" value={displayOrder} onChange={displayOrderChange} disabled={selectedRow !== null} style={{ marginRight:"25px"}} InputLabelProps={{ style: { fontSize: "15px" } }}>Display Order</TextField>
 
             <FormControl id="controlType" required>
               <InputLabel id="controlType" style={{fontSize:"15px"}}>Control Type</InputLabel>
@@ -202,14 +178,12 @@ export default function FormField() {
               </Select>
             </FormControl>
 
-            <TextField id="fieldName" required label="Field Name" variant="outlined" onChange={fieldNameChange} value={fieldName}  style={{ marginRight:"25px",fontSize:"10px"}} InputLabelProps={{ style: { fontSize: "15px" } }} >Field Name</TextField>
+            <TextField id="fieldName" required label="Field Name" variant="outlined" onChange={fieldNameChange} value={fieldName}  style={{ marginRight:"25px"}} InputLabelProps={{ style: { fontSize: "15px" } }} >Field Name</TextField>
 
-            <TextField id="maxLength" label="Max Length" variant="outlined" onChange={maxLengthChange} value={maxLength} style={{marginBottom:"5px" , marginRight:"25px",fontSize:"10px"}} InputLabelProps={{ style: { fontSize: "15px" } }}>Max length</TextField>
+            <TextField id="maxLength" label="Max Length" variant="outlined" onChange={maxLengthChange} value={maxLength} style={{marginBottom:"5px" , marginRight:"25px"}} InputLabelProps={{ style: { fontSize: "15px" } }}>Max length</TextField>
 
             <TextField id="defaultValue" label="Default Value" variant="outlined" onChange={defaultValueChange} value={defaultValue} style={{ marginBottom:"25px"}} InputLabelProps={{ style: { fontSize: "15px" } }}/>
         
-           
-           
             <FormControl >
               <InputLabel id="isRequired" style={{fontSize:"15px"}}>Is Required?</InputLabel>
               <Select
@@ -239,18 +213,15 @@ export default function FormField() {
               </Select>
             </FormControl>
            
-           <br />
-           
-            <Button variant="contained" style={{marginRight: "10px",backgroundColor: "rgb(122 161 187)"}} onClick={Save}>Save</Button>
-            <Button variant="contained" style={{backgroundColor: "rgb(122 161 187)"}} onClick={HandleClear}>Add</Button>
-            
+            <DialogActions>
+              <Button variant="contained" onClick={Save} style={{ textTransform: 'capitalize',fontSize:'16px', fontWeight: 400  }}>Save</Button>
+              <Button type="submit"   variant="contained" onClick={HandleClear} style={{ textTransform: 'capitalize',fontSize:'16px',  fontWeight: 400, }}>Add</Button>
+            </DialogActions>
           </div>
         </AccordionDetails>
         <DataGrid rows={data} columns={columns} />
+
       </Accordion>
-     
-     
-     
     </div>
   );
 }

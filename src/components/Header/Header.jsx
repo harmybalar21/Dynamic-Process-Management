@@ -72,7 +72,7 @@ export default function HeaderBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Header style={{backgroundColor: "rgb(122 161 187)"}}>
+        <Header>
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between' }}>
             
             {/* Arrow Icon Popover */}

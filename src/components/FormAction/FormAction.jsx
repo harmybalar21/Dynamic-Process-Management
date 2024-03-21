@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Accordion, AccordionSummary, AccordionDetails, TextField, FormControl, InputLabel, MenuItem, Select, IconButton, Button } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Accordion, AccordionSummary, AccordionDetails, TextField, FormControl, InputLabel, MenuItem, Select, IconButton, Button, DialogActions } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DataGrid} from '@mui/x-data-grid';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -9,7 +9,7 @@ import { Label } from '@mui/icons-material';
 
 
 
-const FormAction = () => {
+export default function FormAction({formactions, onActionChange})  {
     const [controlType, setControlType] = useState('');
     const [displayOrder, setDisplayOrder] = useState('');
     const [success, setSuccess] = useState('');
@@ -18,37 +18,14 @@ const FormAction = () => {
     const [color, setColor] = useState('');
     const [defaultValue, setDefaultValue] = useState('');
     const [selectedRow, setSelectedRow] = useState(null); 
-    const [data, setData] = useState([
-      
-        {
-            "id": 1,
-            "color": "yellow",
-            "controlType": "button",
-            "text": "save",
-            "displayOrder": "1",
-            "success": "success",
-            "failure": "no"
-        },
-        {
-            "id": 0.4100180468503791,
-            "controlType": "button",
-            "displayOrder": "2",
-            "text": "cancel",
-            "success": "",
-            "failure": "",
-            "color": "",
-            "defaultValue": ""
-        },
-        {
-            "id": 0.7595405644721089,
-            "controlType": "submit",
-            "displayOrder": "3",
-            "text": "save",
-            "success": "",
-            "failure": "",
-            "color": "",
-            "defaultValue": ""
-        }]);
+    const [data, setData] = useState(formactions || []);
+    
+ useEffect(()=>{
+  setData(formactions || []);
+ },[formactions])
+
+ 
+
       const controlTypeChange = (event) => {
         setControlType(event.target.value);
       };
@@ -101,6 +78,7 @@ const FormAction = () => {
       const handleDelete = (id) => {
         const updatedRows = data.filter(row => row.id !== id);
         setData(updatedRows);
+        onActionChange(updatedRows);
       };
 
       const Save = () => {
@@ -116,6 +94,7 @@ const FormAction = () => {
             return row;
           });
           setData(updatedRows);
+          onActionChange(updatedRows);
           setSelectedRow(null);
         } else 
         {const isDisplayOrderExists = data.some(row => row.displayOrder === displayOrder);
@@ -134,6 +113,7 @@ const FormAction = () => {
             defaultValue
           };
           setData([...data, newRow]);
+          onActionChange([...data, newRow]);
           console.log(data)
         }
         HandleClear();
@@ -193,18 +173,15 @@ const FormAction = () => {
             <TextareaAutosize autoFocus value={success}  margin="dense" id="success" name="success" placeholder="Success Message" style={{ width: '300px', marginRight:'25px'}} onChange={successChange}  minRows={4}/> 
 
            <TextareaAutosize autoFocus value={failure} onChange={failureChange} margin="dense" id="failure" name="failure" placeholder="Failure Message" style={{ width: '300px'}}minRows={4} /> 
-            <br />
-       
-          
-            <Button variant="contained" onClick={Save} style={{marginRight: "10px",backgroundColor: "rgb(122 161 187) "}} >Save</Button>
-           
-            <Button variant="contained" onClick={HandleClear} style={{backgroundColor: "rgb(122 161 187)"}}>Add</Button>
-            
-          </div>
+
+        <DialogActions>
+        <Button variant="contained" onClick={Save} style={{ textTransform: 'capitalize',fontSize:'16px', fontWeight: 400  }}>Save</Button>
+        <Button type="submit"   variant="contained" onClick={HandleClear} style={{ textTransform: 'capitalize',fontSize:'16px',  fontWeight: 400, }}>Add</Button>
+        </DialogActions>
+         </div>
         </AccordionDetails>
         <DataGrid rows={data} columns={columns} />
       </Accordion>
      </div>
     )
 }
-export default FormAction;

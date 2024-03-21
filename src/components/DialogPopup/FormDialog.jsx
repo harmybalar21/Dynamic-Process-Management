@@ -149,7 +149,7 @@ function FormDialog() {
 
   return (
     <React.Fragment>
-      <Button variant="contained" onClick={handleClickOpen} style={{backgroundColor: "rgb(122 161 187)"}} startIcon={<PersonAddIcon/>}>
+      <Button variant="contained" onClick={handleClickOpen} startIcon={<PersonAddIcon/>}>
         Add User
       </Button>
       
