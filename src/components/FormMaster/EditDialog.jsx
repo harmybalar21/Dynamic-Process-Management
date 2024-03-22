@@ -1,4 +1,4 @@
-// EditDialog.js
+
 import React, { useState, useEffect } from 'react';
 import { TextField, Dialog, DialogTitle, DialogContent, Button, DialogActions } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -30,6 +30,7 @@ const EditDialog = ({ open, user, onSave, onClose, mode, isAccordionsVisible }) 
       !editedUser.name.trim() || !editedUser.description.trim()) {
     setNameError('Name is required');
     setDescriptionError('Description is required');
+        
     return;
   }
   

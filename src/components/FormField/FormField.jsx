@@ -76,10 +76,9 @@ export default function FormField({ formfields, onFieldChange, onSave }) {
         return row;
       });
       setData(updatedRows);
-      // onFieldChange(updatedRows);
-      onSave(data);
+      onSave(updatedRows);
       setSelectedRow(null);
-      console.log(updatedRows);
+      console.log(data);
       
     } else {
       const isDisplayOrderExists = data.some(row => row.displayOrder === displayOrder);

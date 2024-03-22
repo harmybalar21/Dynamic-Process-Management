@@ -21,17 +21,21 @@ const FormMaster = () => {
   const [editDialogMode, setEditDialogMode] = useState('add');
   const [isAccordionsVisible, setIsAccordionsVisible] = useState(true);
   const [isFormSaved, setIsFormSaved] = useState(false);
+  const [isInitialMount, setIsInitialMount] = useState(true);
+  const [editableUser, setEditableUser] = useState(null);
 
   const openDialog = () => {
     setIsOpen(true);
   };
 
 //   const [newFormDetails, setNewFormDetails] = useState({
+//   id:1,
 //   name: '',
 //   description: '',
 //   formfields: [],
 //   formactions: [],
 // });
+
   const [users, setUsers] = useState([
     {
       id: 1,
@@ -106,24 +110,27 @@ const FormMaster = () => {
 
  
   const handleSaveUser = (newUser) => {
+    const userIndex = users.findIndex((user) => user.id === newUser.id);
+    debugger
+    console.log(userIndex)
     setUsers(prevUsers => [
       ...prevUsers,
       {
         id: prevUsers.length + 1,
-        ...newUser
+        ...newUser,
+        formfields: newUser.formfields || [],
+        formactions: newUser.formactions || []
       }
     ]);
-    // setIsOpen(false);
-    // setIsFormSaved(true);
     setIsAccordionsVisible(true);
     console.log("isAccordionsVisible:", isAccordionsVisible);
   };
-  
 
 
   const handleSaveEdit = (editableUser) => {
     const userIndex = users.findIndex((user) => user.id === editableUser.id);
-
+    debugger
+    console.log(userIndex)
     if (userIndex !== -1) {
       // Update the user in the users state
       const updatedUsers = [...users];
@@ -137,8 +144,7 @@ const FormMaster = () => {
     setEditableUser(null);
   };
 
-  const [isInitialMount, setIsInitialMount] = useState(true);
-  const [editableUser, setEditableUser] = useState(null);
+
 
   useEffect(() => {
     if (!isInitialMount && formJson && Object.keys(formJson).length > 0) {
@@ -218,6 +224,7 @@ const FormMaster = () => {
           onClose={() => setIsOpen(false)}
           mode="add"
           onSave={handleSaveUser}
+          users={users} setUsers={setUsers} 
           // user={newFormDetails} // Pass the new form details state
         
         />
@@ -238,8 +245,7 @@ const FormMaster = () => {
             mode="edit"
            isAccordionsVisible={isAccordionsVisible} 
           />
-          {/* <FormField
-           onSave={handleSaveFormField}/> */}
+         {/* <FormField  users={users} setUsers={setUsers} /> */}
         </Box>
       </div>
     </>
