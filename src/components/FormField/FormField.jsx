@@ -16,6 +16,7 @@ export default function FormField({ formfields, onFieldChange, onSave }) {
   const [defaultValue, setDefaultValue] = useState('');
   const [selectedRow, setSelectedRow] = useState(null); 
   const [data, setData] = useState(formfields || []);
+  
 
   useEffect(() => {
     setData(formfields || []);
@@ -75,11 +76,10 @@ export default function FormField({ formfields, onFieldChange, onSave }) {
         }
         return row;
       });
-      setData(updatedRows);
-      onSave(updatedRows);
+      setData([...data, newRow]);
+      onFieldChange([...data, newRow]);
+      // onSave(updatedRows);
       setSelectedRow(null);
-      console.log(data);
-      
     } else {
       const isDisplayOrderExists = data.some(row => row.displayOrder === displayOrder);
 

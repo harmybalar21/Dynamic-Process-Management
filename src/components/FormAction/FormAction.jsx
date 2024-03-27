@@ -86,7 +86,12 @@ export default function FormAction({formactions, onActionChange})  {
           const updatedRows = data.map(row => {
             if (row.id === selectedRow.id) {
               return {
-                ...row, controlType, displayOrder, text, color, success ,
+                ...row, 
+                controlType, 
+                displayOrder, 
+                text, 
+                color, 
+                success ,
                 failure,
                 defaultValue
               };

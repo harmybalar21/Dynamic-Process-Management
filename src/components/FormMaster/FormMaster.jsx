@@ -6,12 +6,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Typography from '@mui/material/Typography';
 import HeaderBar from '../Header/Header';
-import EditDialog from '../FormMaster/EditDialog';
+import EditDialog from '../FormMaster/dialog';
 import { useLocation } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import FormField from '../FormField/FormField';
+import DynamicForm from '../FormMaster/DynamicForm'
 
 const FormMaster = () => {
   const location = useLocation();
@@ -23,18 +24,12 @@ const FormMaster = () => {
   const [isFormSaved, setIsFormSaved] = useState(false);
   const [isInitialMount, setIsInitialMount] = useState(true);
   const [editableUser, setEditableUser] = useState(null);
+  const [isNewFormAdded, setIsNewFormAdded] = useState(false);
 
   const openDialog = () => {
     setIsOpen(true);
+    setIsNewFormAdded(true); 
   };
-
-//   const [newFormDetails, setNewFormDetails] = useState({
-//   id:1,
-//   name: '',
-//   description: '',
-//   formfields: [],
-//   formactions: [],
-// });
 
   const [users, setUsers] = useState([
     {
@@ -108,59 +103,75 @@ const FormMaster = () => {
     },
   ]);
 
- 
   const handleSaveUser = (newUser) => {
-    const userIndex = users.findIndex((user) => user.id === newUser.id);
-    debugger
-    console.log(userIndex)
-    setUsers(prevUsers => [
-      ...prevUsers,
-      {
-        id: prevUsers.length + 1,
-        ...newUser,
-        formfields: newUser.formfields || [],
-        formactions: newUser.formactions || []
-      }
-    ]);
-    setIsAccordionsVisible(true);
-    console.log("isAccordionsVisible:", isAccordionsVisible);
-  };
+    console.log("New User:", newUser); 
+    console.log("New User ID:", newUser.id);
+    console.log("Current Users:", users);
 
-
-  const handleSaveEdit = (editableUser) => {
-    const userIndex = users.findIndex((user) => user.id === editableUser.id);
-    debugger
-    console.log(userIndex)
+    const userIndex = users.findIndex((user) => Number(user.id) === Number(newUser.id));
+  
+    console.log("User Index:", userIndex);
+  
     if (userIndex !== -1) {
-      // Update the user in the users state
+      // Update existing user
       const updatedUsers = [...users];
       updatedUsers[userIndex] = {
+        ...newUser,
+        id: newUser.id,
+        formfields: newUser.formfields || [],
+        formactions: newUser.formactions || []
+      };
+      setUsers(updatedUsers);
+    } else {
+      // Add new user
+      setUsers(prevUsers => [
+        ...prevUsers,
+        {
+          id: prevUsers.length + 1,
+          ...newUser,  
+          formfields: newUser.formfields || [],
+          formactions: newUser.formactions || []
+        }
+      ]);
+    }
+    setIsOpen(false);
+};
+
+
+const handleSaveEdit = (editableUser) => {
+  const updatedUsers = users.map(user => {
+    if (user.id === editableUser.id) {
+      return {
+        ...user,
         ...editableUser,
         formfields: editableUser.formfields || [],
         formactions: editableUser.formactions || []
       };
-      setUsers(updatedUsers);
     }
-    setEditableUser(null);
-  };
+    return user;
+  });
+  setUsers(updatedUsers);
+  setEditableUser(null);
+};
 
 
 
-  useEffect(() => {
-    if (!isInitialMount && formJson && Object.keys(formJson).length > 0) {
-      setUsers((prevUsers) => [
-        ...prevUsers,
-        {
-          id: prevUsers.length + 1,
-          name: formJson.name || '',
-          description: formJson.description || '',
-          formfields: formJson.formfields || [],
-          formactions: formJson.formactions || []
-        },
-      ]);
-    }
-    setIsInitialMount(false);
-  }, [formJson, isInitialMount]);
+
+useEffect(() => {
+  if (isNewFormAdded && formJson && Object.keys(formJson).length > 0) {
+    setUsers(prevUsers => [
+      ...prevUsers,
+      {
+        id: prevUsers.length + 1,
+        name: formJson.name || '',
+        description: formJson.description || '',
+        formfields: formJson.formfields || [],
+        formactions: formJson.formactions || []
+      },
+    ]);
+    setIsNewFormAdded(false); // Reset the flag after adding the new form
+  }
+}, [isNewFormAdded, formJson]);
 
   const columns = [
     {
@@ -185,9 +196,7 @@ const FormMaster = () => {
           <IconButton onClick={() => handleDelete(params.row.id)}>
             <DeleteOutlineIcon />
           </IconButton>
-          <IconButton>
-            <VisibilityIcon />
-          </IconButton>
+          <DynamicForm >Dynamic Form generated</DynamicForm>
         </>
       ),
     },
@@ -200,8 +209,8 @@ const FormMaster = () => {
   const handleEdit = (row) => {
     setEditableUser(row);
     setIsAccordionsVisible(true);
-    
   };
+  
 
   const handleCloseEditDialog = () => {
     setEditableUser(null);
@@ -214,8 +223,6 @@ const FormMaster = () => {
         <HeaderBar />
         <div style={{ height: '50px', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography style={{ fontSize: '20px', fontWeight: '500' }} >FORM MASTER </Typography>
-         
-          {/* <FDialog onSave={handleSaveUser}>Add Form</FDialog> */}
           <Button variant="contained" onClick={() => openDialog('add')}>Add form <AddIcon/></Button>
           {isOpen && (
         <EditDialog
@@ -225,26 +232,20 @@ const FormMaster = () => {
           mode="add"
           onSave={handleSaveUser}
           users={users} setUsers={setUsers} 
-          // user={newFormDetails} // Pass the new form details state
-        
-        />
-      )}
+        />)}
         </div>
         <Box sx={{ height: 500, width: '100%' }}>
-          <DataGrid
-            rows={users}
-            columns={columns}
-            pageSize={9}
-            disableRowSelectionOnClick
-          />
-          <EditDialog
-            open={Boolean(editableUser)}
+          <DataGrid rows={users} columns={columns} pageSize={9} disableRowSelectionOnClick/>
+          {editableUser && (
+          <EditDialog 
+          open={Boolean(editableUser)}
             user={editableUser}
             onSave={handleSaveEdit}
             onClose={handleCloseEditDialog}
             mode="edit"
            isAccordionsVisible={isAccordionsVisible} 
           />
+          )}
          {/* <FormField  users={users} setUsers={setUsers} /> */}
         </Box>
       </div>

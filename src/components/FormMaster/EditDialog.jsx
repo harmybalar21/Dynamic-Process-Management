@@ -6,7 +6,7 @@ import FormAction from '../FormAction/FormAction';
 import FormField from '../FormField/FormField';
 import CancelIcon from '@mui/icons-material/Cancel';
 
-const EditDialog = ({ open, user, onSave, onClose, mode, isAccordionsVisible }) => {
+const EditDialog = ({ open, user, onSave, onClose, mode, users, isAccordionsVisible }) => {
   const [editedUser, setEditedUser] = useState({ ...user });
   const [field, setField] = useState('')
   const [action, setAction] = useState('')
@@ -14,39 +14,57 @@ const EditDialog = ({ open, user, onSave, onClose, mode, isAccordionsVisible }) 
   const [accordionsVisible, setAccordionsVisible] = useState(false); 
   const [nameError, setNameError] = useState('');
   const [descriptionError, setDescriptionError] = useState('');
+  const [initialId, setInitialId] = useState(0);
   const dialogTitle = mode === 'add' ? 'Add New Form' : 'Edit Form';
 
-  useEffect(() => {
-    setEditedUser({ ...user });
-  }, [user]);
+  // useEffect(() => {
+  //   if (user && Array.isArray(user.formfields)) {
+  //     setEditedUser({ ...user });
+  //     setData([...user.formfields]); // Update form fields from user prop
+  //   }
+  // }, [user]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditedUser((prev) => ({ ...prev, [name]: value }));
+    setEditedUser((prev) => ({ ...prev,[name]: value }));
   };
 
   const handleSave = () => {
     if (!editedUser || !editedUser.name || !editedUser.description ||
-      !editedUser.name.trim() || !editedUser.description.trim()) {
-    setNameError('Name is required');
-    setDescriptionError('Description is required');
-        
-    return;
-  }
-  
-    const updatedUser = {
-      ...editedUser,
-      formfields: field,
-      formactions: action
-    };
-  
-    onSave(updatedUser);
-  
-    if (mode === 'add') {
-      setAccordionsVisible(true);
+        !editedUser.name.trim() || !editedUser.description.trim()) {
+      setNameError('Name is required');
+      setDescriptionError('Description is required');
+      return;
     }
+
+    let updatedUser;
+     if (mode === 'add') {
+      updatedUser = {
+        ...editedUser,
+        id: users.length + 1, // Generate new ID
+        formfields: field,
+        formactions: action
+      };
+      setInitialId(updatedUser.id); // Set initial ID when adding new form
+    } else {
+      updatedUser = {
+        ...editedUser,
+        formfields: field,
+        formactions: action
+      };
+    }
+
+    onSave(updatedUser);
+    onClose()
+    // if (mode === 'add') {
+    //   setAccordionsVisible(true);
+    // } else {
+    //   onClose(); // Close the dialog after saving changes for edit mode
+    // }
   };
 
+  
+  
   const handleClose = () => {
     onClose();
   };

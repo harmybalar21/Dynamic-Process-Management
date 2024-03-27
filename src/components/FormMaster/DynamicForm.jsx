@@ -4,7 +4,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from "react";
 
-const DynamicForm = () => {
+const DynamicForm = ({name}) => {
     const [open, setOpen] = useState(false);
 
     const handleClickOpen =()=> {
@@ -24,7 +24,7 @@ const DynamicForm = () => {
         maxWidth="lg" fullWidth
         open={open}
         onClose={handleClose}>
-             <DialogTitle style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 900, fontSize:'22px'}}> form</DialogTitle>
+             <DialogTitle style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 900, fontSize:'22px'}}>form name</DialogTitle>
         </Dialog>
 
         </>
